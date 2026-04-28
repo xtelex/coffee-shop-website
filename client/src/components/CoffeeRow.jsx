@@ -6,7 +6,7 @@ export default function CoffeeRow({ title, coffees }) {
   const duplicatedCoffees = [...coffees, ...coffees, ...coffees]
 
   return (
-    <div className="mb-12">
+    <div>
       <h2 className="text-5xl font-bold mb-8 text-white pl-8 tracking-wide">{title}</h2>
       
       {/* Container with blur overlays */}

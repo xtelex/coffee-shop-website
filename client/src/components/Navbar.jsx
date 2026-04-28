@@ -9,16 +9,29 @@ export default function Navbar() {
       className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 px-8 py-4"
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <Link to="/" className="text-black text-3xl font-bold">
-          On The Way Coffee
-        </Link>
-        
-        <div className="flex gap-6 items-center text-black">
-          <Link to="/" className="hover:text-gray-600 transition">
-            Home
+        {/* Left side - Menu items */}
+        <div className="flex gap-8 items-center text-black font-semibold">
+          <Link to="/" className="hover:text-gray-600 transition uppercase tracking-wider text-sm">
+            Menu
           </Link>
-          <Link to="/favorites" className="hover:text-gray-600 transition">
-            My List
+          <Link to="/merchandise" className="hover:text-gray-600 transition uppercase tracking-wider text-sm">
+            Merchandise
+          </Link>
+          <Link to="/rewards" className="hover:text-gray-600 transition uppercase tracking-wider text-sm">
+            Rewards
+          </Link>
+        </div>
+        
+        {/* Right side - Actions */}
+        <div className="flex gap-6 items-center">
+          <Link to="/store" className="text-black hover:text-gray-600 transition text-sm font-semibold">
+            Find a Store
+          </Link>
+          <Link to="/signin" className="text-black hover:text-gray-600 transition text-sm font-semibold px-4 py-2 border border-black rounded-full">
+            Sign In
+          </Link>
+          <Link to="/join" className="text-white bg-black hover:bg-gray-800 transition text-sm font-semibold px-4 py-2 rounded-full">
+            Join Now
           </Link>
         </div>
       </div>
