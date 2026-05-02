@@ -14,8 +14,8 @@ const router = express.Router()
 router.post('/register', registerUser)
 router.post('/login', loginUser)
 router.get('/profile', protect, getUserProfile)
-router.post('/favorites/:coffeeId', protect, addToFavorites)
-router.delete('/favorites/:coffeeId', protect, removeFromFavorites)
+router.post('/favorites/:shoeId', protect, addToFavorites)
+router.delete('/favorites/:shoeId', protect, removeFromFavorites)
 router.get('/favorites', protect, getFavorites)
 
 export default router

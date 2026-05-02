@@ -15,7 +15,7 @@ console.log('SUPABASE_SERVICE_KEY:', process.env.SUPABASE_SERVICE_KEY ? 'Loaded'
 
 import express from 'express'
 import cors from 'cors'
-import coffeeRoutes from './routes/coffeeRoutes.js'
+import shoeRoutes from './routes/shoeRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 
 const app = express()
@@ -26,11 +26,11 @@ app.use(cors())
 app.use(express.json())
 
 // Routes
-app.use('/api/coffees', coffeeRoutes)
+app.use('/api/shoes', shoeRoutes)
 app.use('/api/users', userRoutes)
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Coffee 3D API with Supabase is running' })
+  res.json({ message: 'KickFlix API with Supabase is running' })
 })
 
 app.listen(PORT, () => {

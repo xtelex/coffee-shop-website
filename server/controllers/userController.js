@@ -60,22 +60,22 @@ export const getUserProfile = async (req, res) => {
     // Get user's favorites
     const { data: favorites, error: favError } = await supabase
       .from('favorites')
-      .select('coffee_id, coffees(*)')
+      .select('shoe_id, shoes(*)')
       .eq('user_id', user.id)
 
     if (favError) throw favError
 
     res.json({
       user,
-      favorites: favorites.map(f => f.coffees)
+      favorites: favorites.map(f => f.shoes)
     })
   } catch (error) {
     res.status(400).json({ message: error.message })
   }
 }
 
-// @desc    Add coffee to favorites
-// @route   POST /api/users/favorites/:coffeeId
+// @desc    Add shoe to favorites
+// @route   POST /api/users/favorites/:shoeId
 export const addToFavorites = async (req, res) => {
   try {
     const { data: { user }, error: authError } = await supabase.auth.getUser(req.token)
@@ -84,7 +84,7 @@ export const addToFavorites = async (req, res) => {
     const { data, error } = await supabase
       .from('favorites')
       .insert([
-        { user_id: user.id, coffee_id: req.params.coffeeId }
+        { user_id: user.id, shoe_id: req.params.shoeId }
       ])
       .select()
 
@@ -102,8 +102,8 @@ export const addToFavorites = async (req, res) => {
   }
 }
 
-// @desc    Remove coffee from favorites
-// @route   DELETE /api/users/favorites/:coffeeId
+// @desc    Remove shoe from favorites
+// @route   DELETE /api/users/favorites/:shoeId
 export const removeFromFavorites = async (req, res) => {
   try {
     const { data: { user }, error: authError } = await supabase.auth.getUser(req.token)
@@ -113,7 +113,7 @@ export const removeFromFavorites = async (req, res) => {
       .from('favorites')
       .delete()
       .eq('user_id', user.id)
-      .eq('coffee_id', req.params.coffeeId)
+      .eq('shoe_id', req.params.shoeId)
 
     if (error) throw error
 
@@ -132,12 +132,12 @@ export const getFavorites = async (req, res) => {
 
     const { data, error } = await supabase
       .from('favorites')
-      .select('coffee_id, coffees(*)')
+      .select('shoe_id, shoes(*)')
       .eq('user_id', user.id)
 
     if (error) throw error
 
-    res.json(data.map(f => f.coffees))
+    res.json(data.map(f => f.shoes))
   } catch (error) {
     res.status(400).json({ message: error.message })
   }
