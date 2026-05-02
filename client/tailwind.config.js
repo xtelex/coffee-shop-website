@@ -7,12 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        coffee: {
-          black: '#000000',
-          white: '#FFFFFF',
-          gray: '#1A1A1A',
-          'light-gray': '#F5F5F5',
-          'medium-gray': '#808080',
+        primary: {
+          red: '#DC143C',      // Crimson red
+          'dark-red': '#8B0000', // Dark red
+          'light-red': '#FF6B6B', // Light red for accents
+        },
+        dark: {
+          900: '#000000',      // Pure black
+          800: '#0A0A0A',      // Almost black
+          700: '#1A1A1A',      // Dark gray
         }
       }
     },

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Home from './pages/Home'
-import CoffeeDetail from './pages/CoffeeDetail'
+import ShoeDetail from './pages/ShoeDetail'
 import Favorites from './pages/Favorites'
 import Navbar from './components/Navbar'
 
@@ -25,7 +25,7 @@ function AnimatedRoutes() {
           } 
         />
         <Route 
-          path="/coffee/:id" 
+          path="/shoe/:id" 
           element={
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -33,7 +33,7 @@ function AnimatedRoutes() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <CoffeeDetail />
+              <ShoeDetail />
             </motion.div>
           } 
         />
@@ -58,12 +58,12 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-white text-black relative">
-        {/* Global Vignette Effect */}
+      <div className="min-h-screen bg-black text-white relative">
+        {/* Global Vignette Effect with Red Tint */}
         <div 
           className="fixed inset-0 pointer-events-none z-50" 
           style={{
-            background: 'radial-gradient(circle at center, transparent 0%, transparent 50%, rgba(0,0,0,0.3) 100%)',
+            background: 'radial-gradient(circle at center, transparent 0%, transparent 50%, rgba(139,0,0,0.3) 100%)',
             mixBlendMode: 'multiply'
           }}
         />

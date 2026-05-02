@@ -6,31 +6,31 @@ export default function Navbar() {
     <motion.nav 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 px-8 py-4"
+      className="fixed top-0 w-full z-50 bg-black border-b border-primary-red px-8 py-4"
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left side - Menu items */}
-        <div className="flex gap-8 items-center text-black font-semibold">
-          <Link to="/" className="hover:text-gray-600 transition uppercase tracking-wider text-sm">
+        <div className="flex gap-8 items-center text-white font-semibold">
+          <Link to="/" className="hover:text-primary-red transition uppercase tracking-wider text-sm">
             Menu
           </Link>
-          <Link to="/merchandise" className="hover:text-gray-600 transition uppercase tracking-wider text-sm">
+          <Link to="/merchandise" className="hover:text-primary-red transition uppercase tracking-wider text-sm">
             Merchandise
           </Link>
-          <Link to="/rewards" className="hover:text-gray-600 transition uppercase tracking-wider text-sm">
+          <Link to="/rewards" className="hover:text-primary-red transition uppercase tracking-wider text-sm">
             Rewards
           </Link>
         </div>
         
         {/* Right side - Actions */}
         <div className="flex gap-6 items-center">
-          <Link to="/store" className="text-black hover:text-gray-600 transition text-sm font-semibold">
+          <Link to="/store" className="text-white hover:text-primary-red transition text-sm font-semibold">
             Find a Store
           </Link>
-          <Link to="/signin" className="text-black hover:text-gray-600 transition text-sm font-semibold px-4 py-2 border border-black rounded-full">
+          <Link to="/signin" className="text-white hover:text-primary-red transition text-sm font-semibold px-4 py-2 border border-primary-red rounded-full">
             Sign In
           </Link>
-          <Link to="/join" className="text-white bg-black hover:bg-gray-800 transition text-sm font-semibold px-4 py-2 rounded-full">
+          <Link to="/join" className="text-white bg-primary-red hover:bg-primary-dark-red transition text-sm font-semibold px-4 py-2 rounded-full">
             Join Now
           </Link>
         </div>
