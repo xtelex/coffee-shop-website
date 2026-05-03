@@ -77,11 +77,11 @@ CREATE POLICY "Users can delete their own favorites"
   ON favorites FOR DELETE 
   USING (auth.uid() = user_id);
 
--- Insert some sample shoe data
-INSERT INTO shoes (name, description, brand, category, colors, sizes, price, rating) VALUES
-  ('Air Max 270', 'Iconic running shoes with maximum comfort and style', 'Nike', 'Running', ARRAY['Black', 'White', 'Red'], ARRAY['7', '8', '9', '10', '11'], 150.00, 4.8),
-  ('Ultra Boost 21', 'Premium running shoes with responsive cushioning', 'Adidas', 'Running', ARRAY['White', 'Black', 'Blue'], ARRAY['7', '8', '9', '10', '11', '12'], 180.00, 4.7),
-  ('Chuck Taylor All Star', 'Classic canvas sneakers for everyday wear', 'Converse', 'Casual', ARRAY['Black', 'White', 'Red', 'Blue'], ARRAY['6', '7', '8', '9', '10', '11'], 65.00, 4.5),
-  ('Jordan 1 Retro High', 'Legendary basketball shoes with iconic design', 'Jordan', 'Basketball', ARRAY['Black/Red', 'White/Blue', 'Black/White'], ARRAY['8', '9', '10', '11', '12'], 170.00, 4.9),
-  ('Classic Leather', 'Timeless leather sneakers for any occasion', 'Reebok', 'Casual', ARRAY['White', 'Black', 'Brown'], ARRAY['7', '8', '9', '10', '11'], 75.00, 4.4),
-  ('Suede Classic', 'Iconic suede sneakers with vintage appeal', 'Puma', 'Sneakers', ARRAY['Black', 'Blue', 'Red', 'Green'], ARRAY['7', '8', '9', '10', '11'], 70.00, 4.6);
+-- Insert some sample shoe data with image URLs
+INSERT INTO shoes (name, description, brand, category, colors, sizes, price, rating, image_url) VALUES
+  ('Air Max 270', 'Iconic running shoes with maximum comfort and style', 'Nike', 'Running', ARRAY['Black', 'White', 'Red'], ARRAY['7', '8', '9', '10', '11'], 150.00, 4.8, '/models/shoes 1.png'),
+  ('Ultra Boost 21', 'Premium running shoes with responsive cushioning', 'Adidas', 'Running', ARRAY['White', 'Black', 'Blue'], ARRAY['7', '8', '9', '10', '11', '12'], 180.00, 4.7, '/models/shoes2.png'),
+  ('Chuck Taylor All Star', 'Classic canvas sneakers for everyday wear', 'Converse', 'Casual', ARRAY['Black', 'White', 'Red', 'Blue'], ARRAY['6', '7', '8', '9', '10', '11'], 65.00, 4.5, '/models/shoes3.png'),
+  ('Jordan 1 Retro High', 'Legendary basketball shoes with iconic design', 'Jordan', 'Basketball', ARRAY['Black/Red', 'White/Blue', 'Black/White'], ARRAY['8', '9', '10', '11', '12'], 170.00, 4.9, '/models/shoes4.png'),
+  ('Classic Leather', 'Timeless leather sneakers for any occasion', 'Reebok', 'Casual', ARRAY['White', 'Black', 'Brown'], ARRAY['7', '8', '9', '10', '11'], 75.00, 4.4, '/models/shoes5.png'),
+  ('Suede Classic', 'Iconic suede sneakers with vintage appeal', 'Puma', 'Sneakers', ARRAY['Black', 'Blue', 'Red', 'Green'], ARRAY['7', '8', '9', '10', '11'], 70.00, 4.6, '/models/shoes6.png');
