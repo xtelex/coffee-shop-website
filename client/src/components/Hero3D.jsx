@@ -1,18 +1,87 @@
 import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Hero3D() {
+  const videoRef = useRef(null)
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  
+  // List of videos to cycle through
+  const videos = [
+    '/models/background.mp4',
+    '/models/background2.mp4',
+    '/models/background3.mp4'
+  ]
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // Reset video and play from start
+    video.load()
+    const playPromise = video.play()
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log('Video autoplay failed:', error)
+      })
+    }
+
+    // When video ends, switch to next video
+    const handleVideoEnd = () => {
+      console.log(`Video ${currentVideoIndex + 1} ended, switching to next...`)
+      setCurrentVideoIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % videos.length
+        console.log(`Switching from video ${prevIndex + 1} to video ${nextIndex + 1}`)
+        return nextIndex
+      })
+    }
+
+    // Fallback: check if video is near end during playback
+    const handleTimeUpdate = () => {
+      if (video.duration && video.currentTime >= video.duration - 0.5) {
+        // Video is within 0.5 seconds of ending
+        handleVideoEnd()
+      }
+    }
+
+    // Also handle if video fails to load
+    const handleError = (e) => {
+      console.error('Video error:', e)
+    }
+
+    // Log when video can play
+    const handleCanPlay = () => {
+      console.log(`Video ${currentVideoIndex + 1} can play, duration: ${video.duration}s`)
+    }
+
+    video.addEventListener('ended', handleVideoEnd)
+    video.addEventListener('timeupdate', handleTimeUpdate)
+    video.addEventListener('error', handleError)
+    video.addEventListener('canplay', handleCanPlay)
+    
+    return () => {
+      video.removeEventListener('ended', handleVideoEnd)
+      video.removeEventListener('timeupdate', handleTimeUpdate)
+      video.removeEventListener('error', handleError)
+      video.removeEventListener('canplay', handleCanPlay)
+    }
+  }, [currentVideoIndex, videos.length])
+
   return (
     <div className="relative h-screen overflow-hidden bg-black">
-      {/* Video Background */}
+      {/* Video Background - Cycles through multiple videos */}
       <video
+        ref={videoRef}
+        key={currentVideoIndex} // Force re-render when video changes
         autoPlay
-        loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
         style={{ filter: 'brightness(0.7)' }}
       >
-        <source src="/models/background3.mp4" type="video/mp4" />
+        <source src={videos[currentVideoIndex]} type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
       
       {/* Dark overlay for better contrast */}
@@ -34,22 +103,34 @@ export default function Hero3D() {
           transition={{ delay: 0.5 }}
           className="max-w-2xl"
         >
-          <h1 className="text-7xl font-bold mb-6" style={{ color: '#E50914' }}>
-            KickFlix
+          <h1 className="text-7xl font-bold mb-6 text-white">
+            ShoesKopo
           </h1>
           <p className="text-2xl text-white mb-10 leading-relaxed">
             "Step into style. Every great journey starts with the right shoes." 
             Explore our premium collection of sneakers and footwear with immersive 3D visualization.
           </p>
           <div className="flex gap-4">
-            <button className="text-white px-8 py-3 rounded text-lg font-semibold transition" style={{ backgroundColor: '#E50914' }}>
+            <button className="text-white px-8 py-3 rounded text-lg font-semibold transition bg-black hover:bg-gray-800">
               Explore Now
             </button>
-            <button className="bg-transparent text-white px-8 py-3 rounded text-lg font-semibold hover:bg-red-600 transition" style={{ border: '2px solid #E50914' }}>
+            <button className="bg-transparent text-white px-8 py-3 rounded text-lg font-semibold hover:bg-white/10 transition border-2 border-white">
               Learn More
             </button>
           </div>
         </motion.div>
+      </div>
+
+      {/* Video indicator dots */}
+      <div className="absolute bottom-8 right-8 flex gap-2 z-20">
+        {videos.map((_, index) => (
+          <div
+            key={index}
+            className={`w-2 h-2 rounded-full transition-all ${
+              index === currentVideoIndex ? 'bg-red-600 w-8' : 'bg-white/50'
+            }`}
+          />
+        ))}
       </div>
 
       {/* Gradient Overlay */}

@@ -8,14 +8,18 @@ export default {
     extend: {
       colors: {
         primary: {
-          red: '#DC143C',      // Crimson red
-          'dark-red': '#8B0000', // Dark red
-          'light-red': '#FF6B6B', // Light red for accents
+          black: '#000000',
+          white: '#FFFFFF',
         },
         dark: {
-          900: '#000000',      // Pure black
-          800: '#0A0A0A',      // Almost black
-          700: '#1A1A1A',      // Dark gray
+          900: '#000000',
+          800: '#0A0A0A',
+          700: '#1A1A1A',
+        },
+        light: {
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          300: '#D4D4D4',
         }
       }
     },
