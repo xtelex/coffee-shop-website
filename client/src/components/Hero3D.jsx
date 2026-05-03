@@ -1,47 +1,30 @@
 import { motion } from 'framer-motion'
-import { useState, useRef, useEffect } from 'react'
 
 export default function Hero3D() {
-  const [currentVideo, setCurrentVideo] = useState(1)
-  const videoRef = useRef(null)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const handleVideoEnd = () => {
-      // Switch to the next video when current one ends
-      if (currentVideo === 1) {
-        setCurrentVideo(2)
-      } else {
-        setCurrentVideo(1)
-      }
-    }
-
-    video.addEventListener('ended', handleVideoEnd)
-    return () => video.removeEventListener('ended', handleVideoEnd)
-  }, [currentVideo])
-
   return (
     <div className="relative h-screen overflow-hidden bg-black">
-      {/* Video Background - Alternating between two videos */}
+      {/* Video Background */}
       <video
-        ref={videoRef}
-        key={currentVideo} // Force re-render when video changes
         autoPlay
+        loop
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: 'brightness(0.7)' }}
       >
-        <source 
-          src={currentVideo === 1 ? '/models/background.mp4' : '/models/background2.mp4'} 
-          type="video/mp4" 
-        />
+        <source src="/models/background3.mp4" type="video/mp4" />
       </video>
       
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
+
+      {/* Bottom gradient overlay - blends video into dark background (no blur) */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.5) 50%, transparent 100%)'
+        }}
+      />
 
       {/* Overlay Content */}
       <div className="relative z-10 h-full flex items-center px-8 w-1/2">

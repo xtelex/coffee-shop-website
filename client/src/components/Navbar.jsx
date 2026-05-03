@@ -6,7 +6,7 @@ export default function Navbar() {
     <motion.nav 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 w-full z-50 bg-black border-b border-primary-red px-8 py-4"
+      className="fixed top-0 w-full z-50 bg-black px-8 py-4"
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left side - Menu items */}

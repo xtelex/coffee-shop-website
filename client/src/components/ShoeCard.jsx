@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 export default function ShoeCard({ shoe }) {
   return (
-    <div className="w-64 h-96 bg-black border-2 border-primary-red rounded-lg overflow-hidden shadow-lg hover:shadow-primary-red/50 transition-shadow">
+    <div className="w-64 h-96 bg-black rounded-lg overflow-hidden shadow-lg hover:shadow-primary-red/50 transition-shadow">
       <div className="h-3/4 bg-gradient-to-br from-dark-800 to-dark-700 flex items-center justify-center">
         {/* Sneaker emoji */}
         <span className="text-8xl">👟</span>

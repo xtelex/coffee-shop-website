@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import ShoeRow from '../components/ShoeRow'
 import Hero3D from '../components/Hero3D'
 import Footer from '../components/Footer'
@@ -11,6 +11,12 @@ import img3 from '../image/img3.jpg'
 export default function Home() {
   const [shoes, setShoes] = useState([])
   const [loading, setLoading] = useState(true)
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll()
+  
+  // Parallax effect for hero
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   useEffect(() => {
     fetchShoes()
@@ -33,31 +39,63 @@ export default function Home() {
   const duplicatedImages = [...images, ...images, ...images]
 
   return (
-    <div className="relative bg-black">
-      {/* Hero Section with 3D */}
-      <Hero3D />
+    <div ref={containerRef} className="relative bg-black">
+      {/* Hero Section with Parallax */}
+      <motion.div style={{ y: heroY, opacity: heroOpacity }}>
+        <Hero3D />
+      </motion.div>
       
-      {/* Shoe Rows */}
+      {/* Shoe Rows with Fade-in Animation */}
       <div className="relative z-10 -mt-32 bg-black">
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8 }}
         >
           {loading ? (
             <div className="text-center py-20 text-white">Loading...</div>
           ) : (
             <>
-              <ShoeRow title="Trending Kicks" shoes={shoes.slice(0, 6)} />
-              <ShoeRow title="Classic Collection" shoes={shoes.slice(6, 12)} />
-              <ShoeRow title="Limited Edition" shoes={shoes.slice(12, 18)} />
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <ShoeRow title="Trending Kicks" shoes={shoes.slice(0, 6)} />
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <ShoeRow title="Classic Collection" shoes={shoes.slice(6, 12)} />
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <ShoeRow title="Limited Edition" shoes={shoes.slice(12, 18)} />
+              </motion.div>
             </>
           )}
         </motion.div>
       </div>
 
-      {/* Image Carousel Section */}
-      <div className="relative overflow-hidden bg-black border-t border-primary-red">
+      {/* Image Carousel Section with Scroll Animation */}
+      <motion.div 
+        className="relative overflow-hidden bg-black"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8 }}
+      >
         <motion.div
           className="flex"
           animate={{
@@ -75,7 +113,7 @@ export default function Home() {
           {duplicatedImages.map((img, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[500px] h-[350px] overflow-hidden border-2 border-primary-red"
+              className="flex-shrink-0 w-[500px] h-[350px] overflow-hidden"
             >
               <img
                 src={img}
@@ -89,7 +127,7 @@ export default function Home() {
         {/* Blur gradients on edges */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent pointer-events-none z-10"></div>
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent pointer-events-none z-10"></div>
-      </div>
+      </motion.div>
 
       {/* Footer */}
       <Footer />

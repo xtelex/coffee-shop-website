@@ -58,7 +58,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-black text-white relative">
+      <div className="min-h-screen bg-black text-white relative" style={{ scrollBehavior: 'smooth' }}>
         {/* Global Vignette Effect with Red Tint */}
         <div 
           className="fixed inset-0 pointer-events-none z-50" 

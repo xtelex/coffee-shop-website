@@ -6,7 +6,7 @@ export default function Footer() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.5 }}
-      className="bg-black text-white border-t border-primary-red py-12 mt-20"
+      className="bg-black text-white py-12 mt-20"
     >
       <div className="max-w-7xl mx-auto px-8">
         {/* Catchy Slogan */}
@@ -62,7 +62,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center mt-12 pt-8 border-t border-primary-red">
+        <div className="text-center mt-12 pt-8">
           <p className="text-gray-500 text-sm">
             © 2026 KickFlix. All rights reserved. | Crafted with ❤️ and 👟
           </p>
