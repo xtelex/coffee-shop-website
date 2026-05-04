@@ -4,6 +4,7 @@ import ShoeRow from '../components/ShoeRow'
 import Hero3D from '../components/Hero3D'
 import Jordan3D from '../components/Jordan3D'
 import ImageShowcase from '../components/ImageShowcase'
+import BestSellerSlider from '../components/BestSellerSlider'
 import BrandSection from '../components/BrandSection'
 import Footer from '../components/Footer'
 import axios from 'axios'
@@ -77,13 +78,16 @@ export default function Home() {
                 </h2>
                 <Jordan3D />
               </motion.div>
-
-              {/* Brand Section */}
-              <BrandSection />
             </>
           )}
         </motion.div>
       </div>
+
+      {/* Best Seller Section */}
+      <BestSellerSlider />
+
+      {/* Brand Section */}
+      <BrandSection />
 
       {/* Footer */}
       <Footer />
