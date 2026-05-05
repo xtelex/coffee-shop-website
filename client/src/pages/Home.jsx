@@ -5,6 +5,7 @@ import Hero3D from '../components/Hero3D'
 import Jordan3D from '../components/Jordan3D'
 import ImageShowcase from '../components/ImageShowcase'
 import BestSellerSlider from '../components/BestSellerSlider'
+import SportsCategories from '../components/SportsCategories'
 import BrandSection from '../components/BrandSection'
 import Footer from '../components/Footer'
 import axios from 'axios'
@@ -85,6 +86,9 @@ export default function Home() {
 
       {/* Best Seller Section */}
       <BestSellerSlider />
+
+      {/* Sports Categories Section */}
+      <SportsCategories />
 
       {/* Brand Section */}
       <BrandSection />

@@ -16,55 +16,33 @@ function AirForce1Model() {
   )
 }
 
+// Preload the model
+useGLTF.preload('/models/air_force_1_low_07_whitedark_beetroot/scene.gltf')
+
 export default function AirForce1({ onNext, onPrevious, showPrevious = false, currentSlide = 0, totalSlides = 1 }) {
   return (
     <div className="relative w-full h-screen bg-white overflow-hidden">
       {/* Large Background Text */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      >
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <h1 className="text-[20rem] font-black text-black/5 select-none leading-none">
           SHOES<br/>KO PO
         </h1>
-      </motion.div>
+      </div>
 
       {/* White Vignette Effect around the shoe */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="absolute inset-0 pointer-events-none"
-      >
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-white"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gray-200/40 rounded-full blur-[150px]"></div>
-      </motion.div>
+      </div>
 
       {/* Section Title */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-        viewport={{ once: true }}
-        className="absolute top-12 left-12 z-20"
-      >
+      <div className="absolute top-12 left-12 z-20">
         <h2 className="text-6xl font-bold text-black mb-2">Best Seller</h2>
         <div className="w-24 h-1 bg-black"></div>
-      </motion.div>
+      </div>
 
       {/* 3D Canvas */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ 
-          duration: 0.6,
-          delay: 0.3,
-          ease: "easeInOut"
-        }}
-        className="absolute inset-0"
-      >
+      <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 0, 8], fov: 50 }}
           style={{ background: 'transparent' }}
@@ -100,30 +78,14 @@ export default function AirForce1({ onNext, onPrevious, showPrevious = false, cu
             <Environment preset="studio" />
           </Suspense>
         </Canvas>
-      </motion.div>
+      </div>
 
       {/* Decorative Elements */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.7 }}
-        className="absolute top-0 right-0 w-96 h-96 bg-gray-200/20 rounded-full blur-3xl"
-      ></motion.div>
-      <motion.div 
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="absolute bottom-0 left-0 w-96 h-96 bg-gray-200/20 rounded-full blur-3xl"
-      ></motion.div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gray-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gray-200/20 rounded-full blur-3xl"></div>
 
       {/* Bottom Info */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.9 }}
-        viewport={{ once: true }}
-        className="absolute bottom-12 left-12 z-20"
-      >
+      <div className="absolute bottom-12 left-12 z-20">
         <p className="text-gray-700 text-xl mb-4 max-w-md">
           The timeless Nike Air Force 1 Low in stunning white. A classic that never goes out of style. Drag to rotate and explore every detail.
         </p>
@@ -154,7 +116,7 @@ export default function AirForce1({ onNext, onPrevious, showPrevious = false, cu
             </button>
           )}
         </div>
-      </motion.div>
+      </div>
 
       {/* Slide Indicators */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2 z-20">

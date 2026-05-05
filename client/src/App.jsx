@@ -58,16 +58,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-black text-white relative" style={{ scrollBehavior: 'smooth' }}>
-        {/* Global Vignette Effect with Red Tint */}
-        <div 
-          className="fixed inset-0 pointer-events-none z-50" 
-          style={{
-            background: 'radial-gradient(circle at center, transparent 0%, transparent 50%, rgba(139,0,0,0.3) 100%)',
-            mixBlendMode: 'multiply'
-          }}
-        />
-        
+      <div className="min-h-screen bg-white text-black relative" style={{ scrollBehavior: 'smooth' }}>
         <Navbar />
         <AnimatedRoutes />
       </div>
