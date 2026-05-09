@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 
-export default function Hero3D() {
+const Hero3D = memo(function Hero3D() {
   const videoRef = useRef(null)
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   
@@ -28,42 +28,13 @@ export default function Hero3D() {
 
     // When video ends, switch to next video
     const handleVideoEnd = () => {
-      console.log(`Video ${currentVideoIndex + 1} ended, switching to next...`)
-      setCurrentVideoIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % videos.length
-        console.log(`Switching from video ${prevIndex + 1} to video ${nextIndex + 1}`)
-        return nextIndex
-      })
-    }
-
-    // Fallback: check if video is near end during playback
-    const handleTimeUpdate = () => {
-      if (video.duration && video.currentTime >= video.duration - 0.5) {
-        // Video is within 0.5 seconds of ending
-        handleVideoEnd()
-      }
-    }
-
-    // Also handle if video fails to load
-    const handleError = (e) => {
-      console.error('Video error:', e)
-    }
-
-    // Log when video can play
-    const handleCanPlay = () => {
-      console.log(`Video ${currentVideoIndex + 1} can play, duration: ${video.duration}s`)
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length)
     }
 
     video.addEventListener('ended', handleVideoEnd)
-    video.addEventListener('timeupdate', handleTimeUpdate)
-    video.addEventListener('error', handleError)
-    video.addEventListener('canplay', handleCanPlay)
     
     return () => {
       video.removeEventListener('ended', handleVideoEnd)
-      video.removeEventListener('timeupdate', handleTimeUpdate)
-      video.removeEventListener('error', handleError)
-      video.removeEventListener('canplay', handleCanPlay)
     }
   }, [currentVideoIndex, videos.length])
 
@@ -72,22 +43,25 @@ export default function Hero3D() {
       {/* Video Background - Cycles through multiple videos */}
       <video
         ref={videoRef}
-        key={currentVideoIndex} // Force re-render when video changes
+        key={currentVideoIndex}
         autoPlay
         muted
         playsInline
-        preload="auto"
-        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-        style={{ filter: 'brightness(0.7)' }}
+        preload="metadata"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ 
+          filter: 'brightness(0.7)',
+          transform: 'translateZ(0)',
+          willChange: 'auto'
+        }}
       >
         <source src={videos[currentVideoIndex]} type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* Bottom gradient overlay - blends video into dark background (no blur) */}
+      {/* Bottom gradient overlay */}
       <div 
         className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none"
         style={{
@@ -98,9 +72,9 @@ export default function Hero3D() {
       {/* Overlay Content */}
       <div className="relative z-10 h-full flex items-center px-8 w-1/2">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
           className="max-w-2xl"
         >
           <h1 className="text-7xl font-bold mb-6 text-white">
@@ -137,4 +111,6 @@ export default function Hero3D() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-5" />
     </div>
   )
-}
+})
+
+export default Hero3D

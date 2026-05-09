@@ -1,9 +1,90 @@
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const [hoveredMenu, setHoveredMenu] = useState(null)
+
+  const megaMenuData = {
+    mens: {
+      featured: [
+        { name: 'New Arrivals', link: '/mens/new-arrivals' },
+        { name: 'Bestsellers', link: '/mens/bestsellers' },
+        { name: 'Shop All Sale', link: '/mens/sale' },
+        { name: 'All Conditions Gear', link: '/mens/all-conditions' }
+      ],
+      shoes: [
+        { name: 'All Shoes', link: '/mens/shoes' },
+        { name: 'Lifestyle', link: '/mens/shoes/lifestyle' },
+        { name: 'Jordan', link: '/mens/shoes/jordan' },
+        { name: 'Running', link: '/mens/shoes/running' },
+        { name: 'Football', link: '/mens/shoes/football' },
+        { name: 'Basketball', link: '/mens/shoes/basketball' },
+        { name: 'Gym & Training', link: '/mens/shoes/gym' },
+        { name: 'Tennis', link: '/mens/shoes/tennis' },
+        { name: 'Skateboarding', link: '/mens/shoes/skateboarding' },
+        { name: 'Sandals & Slides', link: '/mens/shoes/sandals' },
+        { name: 'Nike By You', link: '/mens/shoes/nike-by-you' },
+        { name: 'Trail Running', link: '/mens/shoes/trail-running' }
+      ],
+      clothing: [
+        { name: 'All Clothing', link: '/mens/clothing' },
+        { name: 'Tops & T-Shirts', link: '/mens/clothing/tops' },
+        { name: 'Shorts', link: '/mens/clothing/shorts' },
+        { name: 'Pants & Leggings', link: '/mens/clothing/pants' },
+        { name: 'Hoodies & Sweatshirts', link: '/mens/clothing/hoodies' },
+        { name: 'Jackets & Gilets', link: '/mens/clothing/jackets' },
+        { name: 'Jerseys & Kits', link: '/mens/clothing/jerseys' },
+        { name: 'Jordan', link: '/mens/clothing/jordan' },
+        { name: 'All Conditions Gear', link: '/mens/clothing/all-conditions' }
+      ],
+      shopBySport: [
+        { name: 'Running', link: '/mens/sport/running' },
+        { name: 'Basketball', link: '/mens/sport/basketball' },
+        { name: 'Football', link: '/mens/sport/football' },
+        { name: 'Golf', link: '/mens/sport/golf' },
+        { name: 'Tennis & Pickleball', link: '/mens/sport/tennis' },
+        { name: 'Gym & Training', link: '/mens/sport/gym' },
+        { name: 'Yoga', link: '/mens/sport/yoga' },
+        { name: 'Skateboarding', link: '/mens/sport/skateboarding' },
+        { name: 'Trail Running', link: '/mens/sport/trail-running' }
+      ],
+      accessories: [
+        { name: 'All Accessories & Equipment', link: '/mens/accessories' },
+        { name: 'Bags & Backpacks', link: '/mens/accessories/bags' },
+        { name: 'Socks', link: '/mens/accessories/socks' },
+        { name: 'Hats & Headwear', link: '/mens/accessories/hats' }
+      ]
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      if (currentScrollY < 10) {
+        // Always show navbar at the top
+        setIsVisible(true)
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down - hide navbar
+        setIsVisible(false)
+      } else {
+        // Scrolling up - show navbar
+        setIsVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [lastScrollY])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -13,8 +94,12 @@ export default function Navbar() {
 
   return (
     <motion.nav 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : -200 }}
+      transition={{ 
+        duration: 0.4, 
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
       className="fixed top-0 w-full z-50 bg-white shadow-sm"
     >
       {/* Top Bar */}
@@ -79,9 +164,15 @@ export default function Navbar() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex items-center justify-center gap-8 py-3">
-            <Link to="/mens" className="text-black hover:text-gray-600 transition font-semibold text-sm">
-              Men's
-            </Link>
+            <div 
+              className="relative"
+              onMouseEnter={() => setHoveredMenu('mens')}
+              onMouseLeave={() => setHoveredMenu(null)}
+            >
+              <Link to="/mens" className="text-black hover:text-gray-600 transition font-semibold text-sm">
+                Men's
+              </Link>
+            </div>
             <Link to="/womens" className="text-black hover:text-gray-600 transition font-semibold text-sm">
               Women's
             </Link>
@@ -100,6 +191,110 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Mega Menu Dropdown */}
+      <AnimatePresence>
+        {hoveredMenu === 'mens' && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute left-0 right-0 bg-white shadow-lg border-t border-gray-200"
+            onMouseEnter={() => setHoveredMenu('mens')}
+            onMouseLeave={() => setHoveredMenu(null)}
+          >
+            <div className="max-w-7xl mx-auto px-8 py-8">
+              <div className="grid grid-cols-5 gap-8">
+                {/* Featured Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Featured</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.mens.featured.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Shoes Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Shoes</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.mens.shoes.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Clothing Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Clothing</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.mens.clothing.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Shop By Sport Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Shop By Sport</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.mens.shopBySport.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Accessories & Equipment Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Accessories & Equipment</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.mens.accessories.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   )
 }

@@ -1,9 +1,9 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, memo } from 'react'
 import { motion } from 'framer-motion'
 
-function AirForce1Model() {
+const AirForce1Model = memo(function AirForce1Model() {
   const { scene } = useGLTF('/models/air_force_1_low_07_whitedark_beetroot/scene.gltf')
   
   return (
@@ -14,12 +14,12 @@ function AirForce1Model() {
       rotation={[0, Math.PI / 4, 0]}
     />
   )
-}
+})
 
 // Preload the model
 useGLTF.preload('/models/air_force_1_low_07_whitedark_beetroot/scene.gltf')
 
-export default function AirForce1({ onNext, onPrevious, showPrevious = false, currentSlide = 0, totalSlides = 1 }) {
+const AirForce1 = memo(function AirForce1({ onNext, onPrevious, showPrevious = false, currentSlide = 0, totalSlides = 1 }) {
   return (
     <div className="relative w-full h-screen bg-white overflow-hidden">
       {/* Large Background Text */}
@@ -47,20 +47,19 @@ export default function AirForce1({ onNext, onPrevious, showPrevious = false, cu
           camera={{ position: [0, 0, 8], fov: 50 }}
           style={{ background: 'transparent' }}
           gl={{ 
-            antialias: true,
+            antialias: false,
             powerPreference: "high-performance",
-            alpha: true
+            alpha: true,
+            stencil: false,
+            depth: true
           }}
-          dpr={[1, 2]}
+          dpr={1}
+          performance={{ min: 0.1 }}
         >
           <Suspense fallback={null}>
-            <ambientLight intensity={1} />
-            <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={2} color="#ffffff" />
-            <spotLight position={[-10, -10, -10]} angle={0.3} penumbra={1} intensity={1.5} color="#ffffff" />
-            <pointLight position={[0, 5, 5]} intensity={2} color="#ffffff" />
-            <pointLight position={[5, 0, 5]} intensity={1.5} color="#ffffff" />
-            <pointLight position={[-5, 0, 5]} intensity={1.5} color="#ffffff" />
-            <directionalLight position={[5, 5, 5]} intensity={1.2} color="#ffffff" />
+            <ambientLight intensity={1.5} />
+            <directionalLight position={[5, 5, 5]} intensity={1.5} />
+            <directionalLight position={[-5, -5, -5]} intensity={1} />
             
             <AirForce1Model />
             
@@ -68,11 +67,10 @@ export default function AirForce1({ onNext, onPrevious, showPrevious = false, cu
               enableZoom={false}
               enablePan={false}
               autoRotate={true}
-              autoRotateSpeed={1}
+              autoRotateSpeed={0.5}
               minPolarAngle={Math.PI / 3}
               maxPolarAngle={Math.PI / 2}
-              enableDamping={true}
-              dampingFactor={0.05}
+              enableDamping={false}
             />
             
             <Environment preset="studio" />
@@ -129,4 +127,6 @@ export default function AirForce1({ onNext, onPrevious, showPrevious = false, cu
       </div>
     </div>
   )
-}
+})
+
+export default AirForce1

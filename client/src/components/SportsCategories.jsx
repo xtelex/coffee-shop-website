@@ -1,5 +1,57 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, memo, useCallback } from 'react'
 import { motion } from 'framer-motion'
+
+const VideoCard = memo(function VideoCard({ category, index, hoveredIndex, onHover, onLeave }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="flex-shrink-0 w-80 group cursor-pointer"
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+    >
+      <div className="relative h-96 rounded-2xl overflow-hidden shadow-lg">
+        {/* Video */}
+        <video
+          src={category.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        
+        {/* Category name */}
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <h3 className="text-3xl font-bold text-white mb-2">{category.name}</h3>
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: hoveredIndex === index ? '100%' : '60px' }}
+            transition={{ duration: 0.3 }}
+            className="h-1 bg-white"
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ 
+              opacity: hoveredIndex === index ? 1 : 0,
+              y: hoveredIndex === index ? 0 : 10
+            }}
+            transition={{ duration: 0.3 }}
+            className="text-white mt-3 text-sm"
+          >
+            Shop {category.name} shoes →
+          </motion.p>
+        </div>
+      </div>
+    </motion.div>
+  )
+})
 
 export default function SportsCategories() {
   const scrollContainerRef = useRef(null)
@@ -14,7 +66,7 @@ export default function SportsCategories() {
     { name: 'Golf', video: '/models/golf.mp4' }
   ]
 
-  const scroll = (direction) => {
+  const scroll = useCallback((direction) => {
     if (scrollContainerRef.current) {
       const scrollAmount = 400
       scrollContainerRef.current.scrollBy({
@@ -22,7 +74,7 @@ export default function SportsCategories() {
         behavior: 'smooth'
       })
     }
-  }
+  }, [])
 
   return (
     <div className="py-16 bg-white relative">
@@ -65,57 +117,19 @@ export default function SportsCategories() {
         className="flex gap-6 overflow-x-auto px-8 pb-4 scrollbar-hide"
         style={{
           scrollbarWidth: 'none',
-          msOverflowStyle: 'none'
+          msOverflowStyle: 'none',
+          WebkitOverflowScrolling: 'touch'
         }}
       >
         {categories.map((category, index) => (
-          <motion.div
+          <VideoCard
             key={category.name}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="flex-shrink-0 w-80 group cursor-pointer"
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <div className="relative h-96 rounded-2xl overflow-hidden shadow-lg">
-              {/* Video */}
-              <video
-                src={category.video}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-              
-              {/* Category name */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-3xl font-bold text-white mb-2">{category.name}</h3>
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: hoveredIndex === index ? '100%' : '60px' }}
-                  transition={{ duration: 0.3 }}
-                  className="h-1 bg-white"
-                />
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ 
-                    opacity: hoveredIndex === index ? 1 : 0,
-                    y: hoveredIndex === index ? 0 : 10
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="text-white mt-3 text-sm"
-                >
-                  Shop {category.name} shoes →
-                </motion.p>
-              </div>
-            </div>
-          </motion.div>
+            category={category}
+            index={index}
+            hoveredIndex={hoveredIndex}
+            onHover={() => setHoveredIndex(index)}
+            onLeave={() => setHoveredIndex(null)}
+          />
         ))}
       </div>
 

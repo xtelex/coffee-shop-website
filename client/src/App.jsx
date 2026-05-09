@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Home from './pages/Home'
 import ShoeDetail from './pages/ShoeDetail'
 import Favorites from './pages/Favorites'
+import SignIn from './pages/SignIn'
 import Navbar from './components/Navbar'
 
 function AnimatedRoutes() {
@@ -47,6 +48,19 @@ function AnimatedRoutes() {
               transition={{ duration: 0.3 }}
             >
               <Favorites />
+            </motion.div>
+          } 
+        />
+        <Route 
+          path="/signin" 
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SignIn />
             </motion.div>
           } 
         />

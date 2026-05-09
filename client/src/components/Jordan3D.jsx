@@ -1,8 +1,8 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, memo } from 'react'
 
-function JordanModel() {
+const JordanModel = memo(function JordanModel() {
   const { scene } = useGLTF('/models/nike_air_jordan_1/scene.gltf')
   
   return (
@@ -12,7 +12,10 @@ function JordanModel() {
       position={[0, -1, 0]}
     />
   )
-}
+})
+
+// Preload the model
+useGLTF.preload('/models/nike_air_jordan_1/scene.gltf')
 
 export default function Jordan3D() {
   return (
@@ -35,14 +38,18 @@ export default function Jordan3D() {
         <Canvas
           camera={{ position: [0, 0, 5], fov: 50 }}
           style={{ background: 'transparent' }}
+          dpr={1}
+          performance={{ min: 0.1 }}
+          gl={{ 
+            powerPreference: 'high-performance',
+            antialias: false,
+            stencil: false,
+            depth: true
+          }}
         >
           <Suspense fallback={null}>
-            <ambientLight intensity={1} />
-            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} color="#FFFFFF" />
-            <spotLight position={[-10, -10, -10]} angle={0.15} penumbra={1} intensity={0.8} color="#FFFFFF" />
-            <pointLight position={[0, 5, 0]} intensity={0.5} color="#FFFFFF" />
-            <pointLight position={[5, 0, 5]} intensity={0.3} color="#FFFFFF" />
-            <pointLight position={[-5, 0, 5]} intensity={0.3} color="#FFFFFF" />
+            <ambientLight intensity={1.2} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
             
             <JordanModel />
             
@@ -52,7 +59,8 @@ export default function Jordan3D() {
               minDistance={3}
               maxDistance={8}
               autoRotate={true}
-              autoRotateSpeed={2}
+              autoRotateSpeed={1}
+              enableDamping={false}
             />
             
             <Environment preset="studio" />
