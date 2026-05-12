@@ -4,7 +4,10 @@ import Home from './pages/Home'
 import ShoeDetail from './pages/ShoeDetail'
 import Favorites from './pages/Favorites'
 import SignIn from './pages/SignIn'
+import StoreLocator from './pages/StoreLocator'
 import Navbar from './components/Navbar'
+import TopBanner from './components/TopBanner'
+import SmoothScroll from './components/SmoothScroll'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -64,18 +67,49 @@ function AnimatedRoutes() {
             </motion.div>
           } 
         />
+        <Route 
+          path="/store" 
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StoreLocator />
+            </motion.div>
+          } 
+        />
       </Routes>
     </AnimatePresence>
+  )
+}
+
+function Layout() {
+  const location = useLocation()
+  const hideNavbar = location.pathname === '/signin'
+  
+  return (
+    <>
+      {!hideNavbar && (
+        <>
+          <TopBanner />
+          <Navbar />
+        </>
+      )}
+      <AnimatedRoutes />
+    </>
   )
 }
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-white text-black relative" style={{ scrollBehavior: 'smooth' }}>
-        <Navbar />
-        <AnimatedRoutes />
-      </div>
+      <SmoothScroll>
+        <div className="min-h-screen bg-white text-black relative">
+          <Layout />
+        </div>
+      </SmoothScroll>
     </Router>
   )
 }

@@ -9,8 +9,28 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 140px;
+  overflow-x: hidden;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -29,6 +49,17 @@ body {
   min-height: 100vh;
 }
 
+/* Optimize image rendering */
+img {
+  content-visibility: auto;
+}
+
+/* Optimize video rendering */
+video {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -37,14 +68,11 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  
+  html {
     scroll-behavior: auto !important;
   }
-}
-
-/* Optimize video rendering */
-video {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
 
 /* Custom scrollbar styling */

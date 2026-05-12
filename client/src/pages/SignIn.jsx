@@ -31,39 +31,59 @@ export default function SignIn() {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-16 px-4">
-      <div className="max-w-md mx-auto">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
-          <Link to="/" className="inline-flex items-center gap-3 mb-4">
-            <img 
-              src="/models/logo.png" 
-              alt="ShoesKopo Logo" 
-              className="h-16 w-auto object-contain"
-            />
-            <span className="text-4xl font-bold text-black">ShoesKopo</span>
-          </Link>
-          <h1 className="text-3xl font-bold text-black mt-4">
-            {isSignUp ? 'Create Account' : 'Welcome Back'}
-          </h1>
-          <p className="text-gray-600 mt-2">
-            {isSignUp ? 'Sign up to get started' : 'Sign in to your account'}
-          </p>
-        </motion.div>
+    <div className="flex h-screen w-screen overflow-hidden">
+      {/* Left Side - Background Image */}
+      <div className="hidden lg:block lg:w-1/2 relative">
+        <img
+          src="/models/SIGNIN.jpg"
+          alt="Fashion Model"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
 
-        {/* Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8"
-        >
-          <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Right Side - Sign In Form */}
+      <div className="w-full lg:w-1/2 bg-white flex items-center justify-center px-8 py-12 overflow-y-auto">
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-8"
+          >
+            <Link to="/" className="inline-flex items-center gap-3 mb-6">
+              <img 
+                src="/models/logo.png" 
+                alt="ShoesKopo Logo" 
+                className="h-12 w-auto object-contain"
+              />
+              <span className="text-3xl font-bold text-black">ShoesKopo</span>
+            </Link>
+          </motion.div>
+
+          {/* Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-center mb-8"
+          >
+            <h1 className="text-4xl font-bold text-black mb-2">
+              {isSignUp ? 'Sign Up' : 'Sign In'}
+            </h1>
+            <p className="text-gray-600">
+              {isSignUp ? 'Create your account' : 'Welcome back'}
+            </p>
+          </motion.div>
+
+          {/* Form */}
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            onSubmit={handleSubmit}
+            className="space-y-5"
+          >
             {/* Sign Up Fields */}
             {isSignUp && (
               <div className="grid grid-cols-2 gap-4">
@@ -78,7 +98,7 @@ export default function SignIn() {
                     value={formData.firstName}
                     onChange={handleChange}
                     required={isSignUp}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black focus:bg-white transition"
                     placeholder="John"
                   />
                 </div>
@@ -93,7 +113,7 @@ export default function SignIn() {
                     value={formData.lastName}
                     onChange={handleChange}
                     required={isSignUp}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black focus:bg-white transition"
                     placeholder="Doe"
                   />
                 </div>
@@ -103,7 +123,7 @@ export default function SignIn() {
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-black mb-2">
-                Email Address
+                Your Email
               </label>
               <input
                 type="email"
@@ -112,7 +132,7 @@ export default function SignIn() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black focus:bg-white transition"
                 placeholder="you@example.com"
               />
             </div>
@@ -129,7 +149,7 @@ export default function SignIn() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black focus:bg-white transition"
                 placeholder="••••••••"
               />
             </div>
@@ -147,20 +167,20 @@ export default function SignIn() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required={isSignUp}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black focus:bg-white transition"
                   placeholder="••••••••"
                 />
               </div>
             )}
 
-            {/* Forgot Password (Sign In only) */}
+            {/* Remember Me & Forgot Password (Sign In only) */}
             {!isSignUp && (
               <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input type="checkbox" className="mr-2" />
+                <label className="flex items-center cursor-pointer">
+                  <input type="checkbox" className="mr-2 w-4 h-4" />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-black font-semibold hover:underline">
+                <a href="#" className="text-sm text-black hover:underline">
                   Forgot password?
                 </a>
               </div>
@@ -169,25 +189,30 @@ export default function SignIn() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 transition"
+              className="w-full bg-black text-white py-3.5 rounded-lg font-bold hover:bg-gray-800 transition text-lg"
             >
               {isSignUp ? 'Create Account' : 'Sign In'}
             </button>
-          </form>
+          </motion.form>
 
           {/* Social Sign In */}
-          <div className="mt-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-6"
+          >
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-gray-200"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-4 bg-white text-gray-500">Or continue with</span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+              <button className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -196,17 +221,22 @@ export default function SignIn() {
                 </svg>
                 <span className="text-sm font-semibold">Google</span>
               </button>
-              <button className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+              <button className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
                 <span className="text-sm font-semibold">Facebook</span>
               </button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Toggle Sign In/Sign Up */}
-          <div className="mt-6 text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-8 text-center"
+          >
             <p className="text-gray-600">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
@@ -217,20 +247,20 @@ export default function SignIn() {
                 {isSignUp ? 'Sign In' : 'Sign Up'}
               </button>
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Terms */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center text-sm text-gray-500 mt-6"
-        >
-          By continuing, you agree to ShoesKopo's{' '}
-          <a href="#" className="underline hover:text-black">Terms of Service</a> and{' '}
-          <a href="#" className="underline hover:text-black">Privacy Policy</a>
-        </motion.p>
+          {/* Terms */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="text-center text-xs text-gray-500 mt-6"
+          >
+            By continuing, you agree to ShoesKopo's{' '}
+            <a href="#" className="underline hover:text-black">Terms of Service</a> and{' '}
+            <a href="#" className="underline hover:text-black">Privacy Policy</a>
+          </motion.p>
+        </div>
       </div>
     </div>
   )

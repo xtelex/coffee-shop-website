@@ -3,8 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion'
 import BestSeller from './BestSeller'
 import AirForce1 from './AirForce1'
 
-const TransitionOverlay = memo(function TransitionOverlay({ isPainting, direction }) {
+const TransitionOverlay = memo(function TransitionOverlay({ isPainting, direction, currentSlide }) {
   if (!isPainting) return null
+  
+  // Determine colors based on which slide we're transitioning to
+  const isGoingToOrange = direction > 0 && currentSlide === 0
+  const isGoingToBlue = direction < 0 && currentSlide === 1
+  
+  const trailColor = isGoingToOrange ? 'rgba(249, 115, 22, 0.95)' : 'rgba(59, 130, 246, 0.95)' // orange or blue
+  const textColor = '#ffffff'
+  const particleColor = isGoingToOrange ? '#f97316' : '#3b82f6'
   
   return (
     <motion.div
@@ -22,8 +30,8 @@ const TransitionOverlay = memo(function TransitionOverlay({ isPainting, directio
         className="absolute inset-0"
         style={{
           background: direction > 0 
-            ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0.95) 100%)'
-            : 'linear-gradient(-90deg, transparent 0%, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0.95) 100%)'
+            ? `linear-gradient(90deg, transparent 0%, ${trailColor} 30%, ${trailColor} 100%)`
+            : `linear-gradient(-90deg, transparent 0%, ${trailColor} 30%, ${trailColor} 100%)`
         }}
       />
       
@@ -37,10 +45,8 @@ const TransitionOverlay = memo(function TransitionOverlay({ isPainting, directio
         <h1 
           className="text-9xl font-black tracking-tight"
           style={{
-            color: direction > 0 ? '#000000' : '#ffffff',
-            textShadow: direction > 0 
-              ? '0 0 40px rgba(0,0,0,0.3)' 
-              : '0 0 40px rgba(255,255,255,0.3)'
+            color: textColor,
+            textShadow: `0 0 40px ${particleColor}`
           }}
         >
           ShoesKopo
@@ -71,10 +77,8 @@ const TransitionOverlay = memo(function TransitionOverlay({ isPainting, directio
             }}
             className="absolute w-4 h-4 rounded-full"
             style={{
-              backgroundColor: direction > 0 ? '#000000' : '#ffffff',
-              boxShadow: direction > 0 
-                ? '0 0 20px rgba(0,0,0,0.5)' 
-                : '0 0 20px rgba(255,255,255,0.5)'
+              backgroundColor: particleColor,
+              boxShadow: `0 0 20px ${particleColor}`
             }}
           />
         ))}
@@ -149,7 +153,7 @@ export default function BestSellerSlider() {
 
       {/* Paint brush transition - contained within this section only */}
       <AnimatePresence>
-        <TransitionOverlay isPainting={isPainting} direction={direction} />
+        <TransitionOverlay isPainting={isPainting} direction={direction} currentSlide={currentSlide} />
       </AnimatePresence>
     </div>
   )

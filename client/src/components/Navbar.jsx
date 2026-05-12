@@ -7,6 +7,7 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [hoveredMenu, setHoveredMenu] = useState(null)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   const megaMenuData = {
     mens: {
@@ -58,6 +59,59 @@ export default function Navbar() {
         { name: 'Socks', link: '/mens/accessories/socks' },
         { name: 'Hats & Headwear', link: '/mens/accessories/hats' }
       ]
+    },
+    womens: {
+      featured: [
+        { name: 'New Arrivals', link: '/womens/new-arrivals' },
+        { name: 'Bestsellers', link: '/womens/bestsellers' },
+        { name: 'Shop All Sale', link: '/womens/sale' },
+        { name: 'All Conditions Gear', link: '/womens/all-conditions' }
+      ],
+      shoes: [
+        { name: 'All Shoes', link: '/womens/shoes' },
+        { name: 'Lifestyle', link: '/womens/shoes/lifestyle' },
+        { name: 'Jordan', link: '/womens/shoes/jordan' },
+        { name: 'Running', link: '/womens/shoes/running' },
+        { name: 'Gym & Training', link: '/womens/shoes/gym' },
+        { name: 'Tennis', link: '/womens/shoes/tennis' },
+        { name: 'Football', link: '/womens/shoes/football' },
+        { name: 'Basketball', link: '/womens/shoes/basketball' },
+        { name: 'Sandals & Slides', link: '/womens/shoes/sandals' },
+        { name: 'Nike By You', link: '/womens/shoes/nike-by-you' },
+        { name: 'Trail Running', link: '/womens/shoes/trail-running' }
+      ],
+      clothing: [
+        { name: 'All Clothing', link: '/womens/clothing' },
+        { name: 'Performance Essentials', link: '/womens/clothing/performance' },
+        { name: 'Tops & T-Shirts', link: '/womens/clothing/tops' },
+        { name: 'Sports Bras', link: '/womens/clothing/sports-bras' },
+        { name: 'Pants & Leggings', link: '/womens/clothing/pants' },
+        { name: 'Shorts', link: '/womens/clothing/shorts' },
+        { name: 'Hoodies & Sweatshirts', link: '/womens/clothing/hoodies' },
+        { name: 'Jackets & Gilets', link: '/womens/clothing/jackets' },
+        { name: 'Skirts & Dresses', link: '/womens/clothing/skirts' },
+        { name: 'Modest Wear', link: '/womens/clothing/modest' },
+        { name: 'Nike Maternity', link: '/womens/clothing/maternity' },
+        { name: 'Plus Size', link: '/womens/clothing/plus-size' },
+        { name: 'All Conditions Gear', link: '/womens/clothing/all-conditions' }
+      ],
+      shopBySport: [
+        { name: 'Yoga', link: '/womens/sport/yoga' },
+        { name: 'Running', link: '/womens/sport/running' },
+        { name: 'Gym & Training', link: '/womens/sport/gym' },
+        { name: 'Basketball', link: '/womens/sport/basketball' },
+        { name: 'Tennis & Pickleball', link: '/womens/sport/tennis' },
+        { name: 'Golf', link: '/womens/sport/golf' },
+        { name: 'Football', link: '/womens/sport/football' },
+        { name: 'Skateboarding', link: '/womens/sport/skateboarding' },
+        { name: 'Trail Running', link: '/womens/sport/trail-running' }
+      ],
+      accessories: [
+        { name: 'All Accessories & Equipment', link: '/womens/accessories' },
+        { name: 'Bags & Backpacks', link: '/womens/accessories/bags' },
+        { name: 'Socks', link: '/womens/accessories/socks' },
+        { name: 'Hats & Headwear', link: '/womens/accessories/hats' }
+      ]
     }
   }
 
@@ -92,6 +146,32 @@ export default function Navbar() {
     // Add search functionality here
   }
 
+  const popularSearchTerms = [
+    'pegasus 42',
+    'summer staples',
+    'kobe',
+    'vomero',
+    'basketball shoes',
+    'vomero 5',
+    'jordan',
+    'bag'
+  ]
+
+  const handleSearchClick = () => {
+    setIsSearchOpen(true)
+  }
+
+  const handleCloseSearch = () => {
+    setIsSearchOpen(false)
+    setSearchQuery('')
+  }
+
+  const handlePopularTermClick = (term) => {
+    setSearchQuery(term)
+    // Trigger search with the term
+    console.log('Searching for:', term)
+  }
+
   return (
     <motion.nav 
       initial={{ y: 0 }}
@@ -100,7 +180,7 @@ export default function Navbar() {
         duration: 0.4, 
         ease: [0.25, 0.46, 0.45, 0.94]
       }}
-      className="fixed top-0 w-full z-50 bg-white shadow-sm"
+      className="fixed top-8 w-full z-50 bg-white shadow-sm"
     >
       {/* Top Bar */}
       <div className="border-b border-gray-200">
@@ -122,6 +202,7 @@ export default function Navbar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={handleSearchClick}
                 placeholder="Search"
                 className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition"
               />
@@ -173,9 +254,15 @@ export default function Navbar() {
                 Men's
               </Link>
             </div>
-            <Link to="/womens" className="text-black hover:text-gray-600 transition font-semibold text-sm">
-              Women's
-            </Link>
+            <div 
+              className="relative"
+              onMouseEnter={() => setHoveredMenu('womens')}
+              onMouseLeave={() => setHoveredMenu(null)}
+            >
+              <Link to="/womens" className="text-black hover:text-gray-600 transition font-semibold text-sm">
+                Women's
+              </Link>
+            </div>
             <Link to="/kids" className="text-black hover:text-gray-600 transition font-semibold text-sm">
               Kids'
             </Link>
@@ -289,6 +376,174 @@ export default function Navbar() {
                       </li>
                     ))}
                   </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+        
+        {hoveredMenu === 'womens' && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute left-0 right-0 bg-white shadow-lg border-t border-gray-200"
+            onMouseEnter={() => setHoveredMenu('womens')}
+            onMouseLeave={() => setHoveredMenu(null)}
+          >
+            <div className="max-w-7xl mx-auto px-8 py-8">
+              <div className="grid grid-cols-5 gap-8">
+                {/* Featured Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Featured</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.womens.featured.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Shoes Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Shoes</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.womens.shoes.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Clothing Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Clothing</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.womens.clothing.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Shop By Sport Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Shop By Sport</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.womens.shopBySport.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Accessories & Equipment Column */}
+                <div>
+                  <h3 className="font-bold text-sm text-black mb-4">Accessories & Equipment</h3>
+                  <ul className="space-y-2">
+                    {megaMenuData.womens.accessories.map((item, index) => (
+                      <li key={index}>
+                        <Link 
+                          to={item.link} 
+                          className="text-sm text-gray-600 hover:text-black transition"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-white z-[70] pt-8"
+            onClick={handleCloseSearch}
+          >
+            <div className="max-w-7xl mx-auto px-8 py-8 mt-8" onClick={(e) => e.stopPropagation()}>
+              {/* Search Header */}
+              <div className="flex items-center gap-4 mb-12">
+                {/* Logo */}
+                <Link to="/" className="flex items-center gap-3" onClick={handleCloseSearch}>
+                  <img 
+                    src="/models/logo.png" 
+                    alt="ShoesKopo Logo" 
+                    className="h-10 w-auto object-contain"
+                  />
+                </Link>
+
+                {/* Search Input */}
+                <div className="flex-1 relative">
+                  <svg className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search"
+                    autoFocus
+                    className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-full focus:outline-none focus:bg-gray-200 transition text-lg"
+                  />
+                </div>
+
+                {/* Cancel Button */}
+                <button
+                  onClick={handleCloseSearch}
+                  className="text-black hover:text-gray-600 transition font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+
+              {/* Popular Search Terms */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-600 mb-4">Popular Search Terms</h3>
+                <div className="flex flex-wrap gap-3">
+                  {popularSearchTerms.map((term, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handlePopularTermClick(term)}
+                      className="px-5 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-black transition"
+                    >
+                      {term}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
