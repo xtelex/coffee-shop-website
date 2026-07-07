@@ -10,6 +10,12 @@ coverage/
 build/
 dist/
 
+# Large 3D model files
+*.zip
+*.bin
+*.gltf
+*.glb
+
 # Environment variables
 .env
 .env.local
